@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard de Estudio</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="logo">📖</div>
+        <nav>
+          <button class="nav-item active">🏠 Dashboard</button>
+          <button class="nav-item">📊 Estadísticas</button>
+          <button class="nav-item">🗓️ Calendario</button>
+          <button class="nav-item">⚙️ Configuración</button>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <header class="topbar">
+          <h1>Seguimiento de estudio</h1>
+          <div class="profile">👤 Xesar</div>
+        </header>
+
+        <section class="card-grid" id="cardGrid"></section>
+      </main>
+    </div>
+
+    <template id="studyCardTemplate">
+      <article class="study-card">
+        <div class="card-header">
+          <div class="cert-name"></div>
+          <div class="streak-block">
+            <span>Racha actual:</span>
+            <strong class="days"></strong>
+          </div>
+          <div class="mini-bars" aria-hidden="true"></div>
+        </div>
+        <div class="status-banner">
+          <div class="status-text"></div>
+          <div class="status-icon"></div>
+        </div>
+        <button class="action-btn"></button>
+      </article>
+    </template>
+
+    <template id="addCardTemplate">
+      <article class="study-card add-card">
+        <div>➕</div>
+        <p>AÑADIR PROYECTO DE ESTUDIO</p>
+      </article>
+    </template>
+
+    <script src="script.js"></script>
+  </body>
+</html>
