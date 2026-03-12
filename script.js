@@ -1,15 +1,17 @@
 const STORAGE_KEY = "study-tracker-projects";
+const THEME_KEY = "study-tracker-theme";
+const MAX_PROJECTS = 4;
 
 const defaultProjects = [
   { id: 1, name: "AWS SysOps Associate", streak: 25, studiedToday: true },
   { id: 2, name: "Red Hat Certified Administrator", streak: 18, studiedToday: false },
-  { id: 3, name: "Maestría en Ciberseguridad", streak: 9, studiedToday: false },
-  { id: 4, name: "Linux Essentials", streak: 45, studiedToday: true }
+  { id: 3, name: "Maestría en Ciberseguridad", streak: 9, studiedToday: false }
 ];
 
 const cardGrid = document.getElementById("cardGrid");
 const cardTemplate = document.getElementById("studyCardTemplate");
 const addTemplate = document.getElementById("addCardTemplate");
+const themeSelect = document.getElementById("themeSelect");
 
 function loadProjects() {
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -27,6 +29,18 @@ function saveProjects(projects) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
 }
 
+function loadTheme() {
+  const savedTheme = localStorage.getItem(THEME_KEY);
+  const theme = savedTheme === "dark" ? "dark" : "light";
+  document.body.setAttribute("data-theme", theme);
+  themeSelect.value = theme;
+}
+
+function saveTheme(theme) {
+  document.body.setAttribute("data-theme", theme);
+  localStorage.setItem(THEME_KEY, theme);
+}
+
 function buildBars(container) {
   const heights = [6, 10, 14, 22, 18, 26, 30];
   heights.forEach((h) => {
@@ -34,6 +48,35 @@ function buildBars(container) {
     bar.style.height = `${h}px`;
     container.appendChild(bar);
   });
+}
+
+function addProject() {
+  const projects = loadProjects();
+  if (projects.length >= MAX_PROJECTS) {
+    alert("Solo puedes tener 4 proyectos activos.");
+    return;
+  }
+
+  const name = prompt("Nombre del nuevo proyecto/certificación:");
+  if (!name || !name.trim()) return;
+
+  const nextId = projects.reduce((max, item) => Math.max(max, item.id), 0) + 1;
+  const updated = [...projects, { id: nextId, name: name.trim(), streak: 0, studiedToday: false }];
+  saveProjects(updated);
+  render();
+}
+
+function removeProject(projectId) {
+  const projects = loadProjects();
+  const target = projects.find((item) => item.id === projectId);
+  if (!target) return;
+
+  const confirmed = confirm(`¿Quitar el proyecto "${target.name}"?`);
+  if (!confirmed) return;
+
+  const updated = projects.filter((item) => item.id !== projectId);
+  saveProjects(updated);
+  render();
 }
 
 function render() {
@@ -49,6 +92,7 @@ function render() {
     const statusText = node.querySelector(".status-text");
     const statusIcon = node.querySelector(".status-icon");
     const actionButton = node.querySelector(".action-btn");
+    const removeButton = node.querySelector(".remove-btn");
 
     if (project.studiedToday) {
       statusBanner.classList.add("done");
@@ -76,13 +120,27 @@ function render() {
       }
     });
 
+    removeButton.addEventListener("click", () => removeProject(project.id));
+
     buildBars(node.querySelector(".mini-bars"));
     cardGrid.appendChild(node);
   });
 
-  for (let i = 0; i < 2; i += 1) {
-    cardGrid.appendChild(addTemplate.content.cloneNode(true));
+  if (projects.length < MAX_PROJECTS) {
+    const addNode = addTemplate.content.cloneNode(true);
+    const addCard = addNode.querySelector(".add-card");
+    addCard.addEventListener("click", addProject);
+    addCard.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        addProject();
+      }
+    });
+    cardGrid.appendChild(addNode);
   }
 }
 
+themeSelect.addEventListener("change", (event) => saveTheme(event.target.value));
+
+loadTheme();
 render();

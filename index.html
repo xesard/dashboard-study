@@ -21,7 +21,16 @@
       <main class="content">
         <header class="topbar">
           <h1>Seguimiento de estudio</h1>
-          <div class="profile">👤 Xesar</div>
+          <div class="header-actions">
+            <label class="theme-control" for="themeSelect">
+              Tema
+              <select id="themeSelect" aria-label="Selector de tema">
+                <option value="light">Claro</option>
+                <option value="dark">Oscuro</option>
+              </select>
+            </label>
+            <div class="profile">👤 Xesar</div>
+          </div>
         </header>
 
         <section class="card-grid" id="cardGrid"></section>
@@ -30,6 +39,7 @@
 
     <template id="studyCardTemplate">
       <article class="study-card">
+        <button class="remove-btn" aria-label="Quitar proyecto" title="Quitar proyecto">✕</button>
         <div class="card-header">
           <div class="cert-name"></div>
           <div class="streak-block">
@@ -47,7 +57,7 @@
     </template>
 
     <template id="addCardTemplate">
-      <article class="study-card add-card">
+      <article class="study-card add-card" role="button" tabindex="0">
         <div>➕</div>
         <p>AÑADIR PROYECTO DE ESTUDIO</p>
       </article>

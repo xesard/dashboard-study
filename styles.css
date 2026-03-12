@@ -3,11 +3,26 @@
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   --blue: #2f80ed;
   --bg: #eef1f5;
+  --surface: #f7f8fa;
   --card: #ffffff;
   --text: #1f2a36;
   --muted: #6a7685;
   --success-bg: #ddf4e7;
   --pending-bg: #e8ebef;
+  --border: #d8dee6;
+}
+
+body[data-theme="dark"] {
+  color-scheme: dark;
+  --blue: #5a9dff;
+  --bg: #161a20;
+  --surface: #1f252e;
+  --card: #262f3a;
+  --text: #ecf2fa;
+  --muted: #b6c2cf;
+  --success-bg: #1f5138;
+  --pending-bg: #3a4350;
+  --border: #3d4754;
 }
 
 * {
@@ -27,8 +42,8 @@ body {
 }
 
 .sidebar {
-  background: #f7f8fa;
-  border-right: 1px solid #dbe0e6;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
   padding: 1.5rem 1rem;
 }
 
@@ -51,13 +66,13 @@ nav {
   text-align: left;
   font-size: 1rem;
   cursor: pointer;
-  color: #3b4654;
+  color: var(--text);
 }
 
 .nav-item.active,
 .nav-item:hover {
-  background: #dce9f8;
-  color: #1d518f;
+  background: color-mix(in srgb, var(--blue) 20%, transparent);
+  color: var(--text);
 }
 
 .content {
@@ -71,14 +86,36 @@ nav {
   margin-bottom: 1rem;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.theme-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.theme-control select {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.3rem 0.45rem;
+  background: var(--card);
+  color: var(--text);
+}
+
 h1 {
   margin: 0;
   font-size: 1.6rem;
 }
 
 .profile {
-  background: #fff;
-  border: 1px solid #d9dee5;
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 999px;
   padding: 0.45rem 0.9rem;
 }
@@ -90,15 +127,29 @@ h1 {
 }
 
 .study-card {
+  position: relative;
   background: var(--card);
   border-radius: 14px;
-  border: 1px solid #d8dee6;
+  border: 1px solid var(--border);
   padding: 0.75rem;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   min-height: 260px;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+  border-radius: 999px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
 }
 
 .cert-name {
@@ -113,7 +164,7 @@ h1 {
 }
 
 .days {
-  color: #2a6db3;
+  color: var(--blue);
   font-size: 2rem;
   line-height: 1;
 }
@@ -158,12 +209,13 @@ h1 {
 }
 
 .action-btn {
-  border: 1px solid #c4ced9;
+  border: 1px solid var(--border);
   border-radius: 9px;
   padding: 0.6rem;
   font-size: 1rem;
   cursor: pointer;
-  background: #fff;
+  background: var(--card);
+  color: var(--text);
 }
 
 .action-btn.primary {
@@ -176,8 +228,14 @@ h1 {
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #4d5a6a;
+  color: var(--muted);
   border-style: dashed;
+  cursor: pointer;
+}
+
+.add-card:hover {
+  border-color: var(--blue);
+  color: var(--blue);
 }
 
 .add-card div {
@@ -196,7 +254,7 @@ h1 {
 
   .sidebar {
     border-right: 0;
-    border-bottom: 1px solid #dbe0e6;
+    border-bottom: 1px solid var(--border);
   }
 
   nav {
