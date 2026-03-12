@@ -3,24 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard de Estudio</title>
+    <title>Xesar Tracker</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="layout">
       <aside class="sidebar">
-        <div class="logo">📖</div>
+        <div class="logo">📖 Xesar Tracker</div>
         <nav>
-          <button class="nav-item active">🏠 Dashboard</button>
-          <button class="nav-item">📊 Estadísticas</button>
-          <button class="nav-item">🗓️ Calendario</button>
-          <button class="nav-item">⚙️ Configuración</button>
+          <button class="nav-item active" type="button">🏠 Dashboard</button>
+          <button class="nav-item" type="button">📊 Estadísticas</button>
+          <button class="nav-item" type="button">🗓️ Calendario</button>
+          <button class="nav-item" type="button">⚙️ Configuración</button>
         </nav>
+
+        <section class="sidebar-panel">
+          <h2>Resumen hoy</h2>
+          <p id="globalCompletion">0/0 tareas</p>
+          <div class="progress-bar" aria-hidden="true"><i id="globalProgressBar"></i></div>
+          <small id="globalProgressLabel">0%</small>
+        </section>
+
+        <section class="sidebar-panel backup-tools">
+          <h2>Datos</h2>
+          <button id="exportBtn" class="secondary-btn" type="button">Exportar JSON</button>
+          <label for="importInput" class="secondary-btn">Importar JSON</label>
+          <input id="importInput" type="file" accept="application/json" />
+          <button id="resetBtn" class="danger-btn" type="button">Reset total</button>
+        </section>
       </aside>
 
       <main class="content">
         <header class="topbar">
-          <h1>Seguimiento de estudio</h1>
+          <h1>Proyectos de estudio</h1>
           <div class="header-actions">
             <label class="theme-control" for="themeSelect">
               Tema
@@ -39,29 +54,57 @@
 
     <template id="studyCardTemplate">
       <article class="study-card">
-        <button class="remove-btn" aria-label="Quitar proyecto" title="Quitar proyecto">✕</button>
+        <div class="card-top-actions">
+          <button class="chip-btn edit-btn" type="button">Editar</button>
+          <button class="chip-btn remove-btn" type="button">Quitar</button>
+        </div>
+
         <div class="card-header">
-          <div class="cert-name"></div>
-          <div class="streak-block">
-            <span>Racha actual:</span>
-            <strong class="days"></strong>
-          </div>
-          <div class="mini-bars" aria-hidden="true"></div>
+          <h3 class="cert-name"></h3>
+          <p class="task-counter"></p>
+          <div class="progress-bar"><i class="project-progress"></i></div>
         </div>
+
+        <ul class="task-list"></ul>
+
         <div class="status-banner">
-          <div class="status-text"></div>
-          <div class="status-icon"></div>
+          <span class="status-text"></span>
+          <span class="status-icon" aria-hidden="true"></span>
         </div>
-        <button class="action-btn"></button>
       </article>
     </template>
 
     <template id="addCardTemplate">
       <article class="study-card add-card" role="button" tabindex="0">
         <div>➕</div>
-        <p>AÑADIR PROYECTO DE ESTUDIO</p>
+        <p>AÑADIR PROYECTO</p>
       </article>
     </template>
+
+    <dialog id="projectModal" class="project-modal">
+      <form id="projectForm" method="dialog">
+        <h2 id="modalTitle">Nuevo proyecto</h2>
+        <label>
+          Nombre del proyecto
+          <input id="projectNameInput" name="projectName" maxlength="60" required />
+        </label>
+
+        <fieldset>
+          <legend>Tareas de hoy (máx 4)</legend>
+          <input class="task-input" placeholder="Tarea 1" maxlength="60" />
+          <input class="task-input" placeholder="Tarea 2" maxlength="60" />
+          <input class="task-input" placeholder="Tarea 3" maxlength="60" />
+          <input class="task-input" placeholder="Tarea 4" maxlength="60" />
+        </fieldset>
+
+        <menu>
+          <button type="button" id="cancelModalBtn" class="secondary-btn">Cancelar</button>
+          <button type="submit" class="primary-btn">Guardar</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
     <script src="script.js"></script>
   </body>

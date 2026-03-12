@@ -12,7 +12,16 @@ Luego abre `http://localhost:4173` en tu navegador.
 
 ## Funcionalidades
 
-- Vista tipo tablero con barra lateral y tarjetas de estudio.
-- Estado diario por proyecto (completado/pendiente).
-- Botón **Registrar estudio** que marca el día como completado y sube la racha.
-- Persistencia local en `localStorage` (sin autenticación, ideal para uso local).
+- Hasta **4 proyectos** activos.
+- Hasta **4 tareas diarias** por proyecto con estado pendiente/completada.
+- Progreso por proyecto y progreso global del día.
+- Crear, editar y eliminar tarjetas/proyectos.
+- Selector de tema claro/oscuro con persistencia local.
+- Exportar/Importar backup JSON y reset total.
+- Persistencia local en `localStorage` (sin autenticación).
+
+## Diseño de interfaz (conceptos)
+
+Se incluyeron 4 propuestas de layout UX/UI en:
+
+- `DESIGN_CONCEPTS.md`
